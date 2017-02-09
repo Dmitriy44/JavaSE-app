@@ -12,21 +12,29 @@ public class MainArray {
         r2.uuid = "uuid2";
         Resume r3 = new Resume();
         r3.uuid = "uuid3";
+        Resume r4 = new Resume();
+        r4.uuid = "uuid3";
+        Resume r5 = new Resume();
+        r5.uuid = "uuid5";
 
         arrayStorage.save(r1);
         arrayStorage.save(r2);
         arrayStorage.save(r3);
+        arrayStorage.save(r4);
 
         System.out.println("Get r1: " + arrayStorage.get(r1.uuid));
+        System.out.println("Get r5: " + arrayStorage.get(r5.uuid));
         System.out.println("Size: " + arrayStorage.size());
 
         printAll();
         arrayStorage.delete(r1.uuid);
+        arrayStorage.delete(r5.uuid);
         printAll();
         arrayStorage.clear();
         printAll();
 
         System.out.println("Size: " + arrayStorage.size());
+        printAll();
     }
 
     static void printAll() {

@@ -2,7 +2,8 @@
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    final int ARRAY_SIZE=10000;
+    Resume[] storage = new Resume[ARRAY_SIZE];
     int size = 0;
 
     void clear() {
@@ -12,7 +13,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if (get(r.uuid) != null) {
+        if (getIndex(r.uuid) != -1) {
             System.out.println("Element with uuid = "+r.uuid+" already contained in storage.");
         } else {
             storage[size++] = r;
@@ -20,22 +21,16 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
-            }
+        int index=getIndex(uuid);
+        if (index==-1){
+            System.out.println("Element with uuid = "+uuid+" is not found.");
+            return null;
         }
-        return null;
+        return storage[index];
     }
 
     void delete(String uuid) {
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                index = i;
-                break;
-            }
-        }
+        int index = getIndex(uuid);
         if (index >= 0) {
             int numMoved = size - index - 1;
             if (numMoved > 0)
@@ -45,6 +40,17 @@ public class ArrayStorage {
             System.out.println("Element with uuid = "+uuid+" is not found.");
         }
 
+    }
+
+    int getIndex(String uuid){
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     /**

@@ -16,7 +16,7 @@ public class ArrayStorage {
         if (getIndex(r.uuid) != -1) {
             System.out.println("Element with uuid = "+r.uuid+" already contained in storage.");
         } else {
-            storage[size++] = r;
+            storage[size++] =  r;
         }
     }
 

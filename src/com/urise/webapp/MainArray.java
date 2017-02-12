@@ -2,52 +2,54 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
+import com.urise.webapp.storage.SortedArrayStorage;
+import com.urise.webapp.storage.Storage;
 
 /**
  *
  * Test for com.urise.webapp.storage.ArrayStorage
  */
 public class MainArray {
-    static ArrayStorage arrayStorage = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume();
-        r1.setUuid("uuid1");
-        Resume r2 = new Resume();
+        final Resume r1 = new Resume();
+        r1.setUuid("uuid3");
+        final Resume r2 = new Resume();
         r2.setUuid("uuid2");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid3");
-        Resume r4 = new Resume();
+        final Resume r3 = new Resume();
+        r3.setUuid("uuid1");
+        final Resume r4 = new Resume();
         r4.setUuid("uuid3");
-        Resume r5 = new Resume();
+        final Resume r5 = new Resume();
         r5.setUuid("uuid5");
 
-        arrayStorage.save(r1);
-        arrayStorage.save(r2);
-        arrayStorage.save(r3);
-        arrayStorage.save(r4);
+        ARRAY_STORAGE.save(r1);
+        ARRAY_STORAGE.save(r2);
+        ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r4);
 
-        arrayStorage.update(r1);
-        arrayStorage.update(r5);
+        ARRAY_STORAGE.update(r1);
+        ARRAY_STORAGE.update(r5);
 
-        System.out.println("Get r1: " + arrayStorage.get(r1.getUuid()));
-        System.out.println("Get r5: " + arrayStorage.get(r5.getUuid()));
-        System.out.println("Size: " + arrayStorage.size());
+        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
+        System.out.println("Get r5: " + ARRAY_STORAGE.get(r5.getUuid()));
+        System.out.println("Size: " + ARRAY_STORAGE.size());
 
         printAll();
-        arrayStorage.delete(r1.getUuid());
-        arrayStorage.delete(r5.getUuid());
+        ARRAY_STORAGE.delete(r1.getUuid());
+        ARRAY_STORAGE.delete(r5.getUuid());
         printAll();
-        arrayStorage.clear();
+        ARRAY_STORAGE.clear();
         printAll();
 
-        System.out.println("Size: " + arrayStorage.size());
+        System.out.println("Size: " + ARRAY_STORAGE.size());
         printAll();
     }
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : arrayStorage.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAll()) {
             System.out.println(r);
         }
     }

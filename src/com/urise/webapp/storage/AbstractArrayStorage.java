@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -20,33 +23,52 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void update(Resume r) {
-        if (getIndex(r.getUuid()) > -1) {
-            storage[getIndex(r.getUuid())] = r;
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            storage[index] = r;
         } else {
-            System.out.println("Element with uuid = " + r.getUuid() + " is not found.");
+            throw new NotExistStorageException(r.getUuid());
         }
     }
 
-    public void delete(String uuid) {
-        if (getIndex(uuid) > -1) {
-            int index = getIndex(uuid);
-            int numMoved = size - index - 1;
-            if (numMoved > 0)
-                System.arraycopy(storage, index + 1, storage, index, numMoved);
-            storage[--size] = null;
+
+    public void save(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index < 0) {
+            if (size < ARRAY_SIZE) {
+                insertElement(r, index);
+                size++;
+            } else {
+                throw new StorageException("Storage is full", r.getUuid());
+            }
         } else {
-            System.out.println("Element with uuid = " + uuid + " is not found.");
+            throw new ExistStorageException(r.getUuid());
         }
     }
+
+    protected abstract void insertElement(Resume r, int index);
+
+
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            fillDeletedElement(index);
+            storage[--size] = null;
+        } else {
+            throw new NotExistStorageException(uuid);
+        }
+    }
+
+    protected abstract void fillDeletedElement(int index);
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (getIndex(uuid) > -1) {
+        if (getIndex(uuid) >= 0) {
             return storage[index];
         }
-        System.out.println("Element with uuid = " + uuid + " is not found.");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
+
     public int size() {
         return size;
     }

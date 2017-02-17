@@ -20,19 +20,15 @@ public class ArrayStorage extends AbstractArrayStorage {
         return index;
     }
 
-
-    public void save(Resume r) {
-        if (!(getIndex(r.getUuid()) > -1)) {
-            if (size < ARRAY_SIZE) {
-                storage[size++] = r;
-            } else {
-                System.out.println("Storage is full");
-            }
-        } else {
-            System.out.println("Element with uuid = " + r.getUuid() + " contained in storage.");
-        }
+    @Override
+    protected void insertElement(Resume r, int index) {
+        storage[size]=r;
     }
 
+    @Override
+    protected void fillDeletedElement(int index) {
+        storage[index]=storage[size-1];
+    }
 
 
     /**

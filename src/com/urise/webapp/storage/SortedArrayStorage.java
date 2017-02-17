@@ -10,24 +10,23 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected int getIndex(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
+        Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    public void save(Resume r) {
-        if (!(getIndex(r.getUuid()) > -1)) {
-            if (size < ARRAY_SIZE) {
-                storage[size++] = r;
-                Arrays.sort(storage,0,size);
-            } else {
-                System.out.println("Storage is full");
-            }
-        } else {
-            System.out.println("Element with uuid = " + r.getUuid() + " contained in storage.");
-        }
+    protected void insertElement(Resume r, int index) {
+        //http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array
+        int insertIdx = -index - 1;
+        System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
+        storage[insertIdx] = r;
     }
 
+    @Override
+    protected void fillDeletedElement(int index) {
+        int numMoved = size - index - 1;
+        if (numMoved > 0)
+            System.arraycopy(storage, index + 1, storage, index, numMoved);
+    }
 
 }

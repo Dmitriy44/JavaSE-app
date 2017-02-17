@@ -36,8 +36,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void testClear() throws Exception {
+        Resume[]testArrayResume=new Resume[]{};
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        Assert.assertArrayEquals(testArrayResume, storage.getAll());
     }
 
     @Test
@@ -49,18 +50,16 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void testSave() throws Exception {
-        int testStorageSize = storage.size();
+        Resume[]testArrayResume=new Resume[]{new Resume("uuid1"),new Resume("uuid2"), new Resume("uuid3"), new Resume("uuid4")};
         storage.save(new Resume("uuid4"));
-        Assert.assertEquals(testStorageSize + 1, storage.size());
-        storage.get("uuid4");
+        Assert.assertArrayEquals(testArrayResume, storage.getAll());
     }
 
     @Test
     public void testDelete() throws Exception {
-        storage.delete("uuid1");
-        storage.delete("uuid2");
+        Resume[]testArrayResume=new Resume[]{new Resume("uuid1"),new Resume("uuid2")};
         storage.delete("uuid3");
-        Assert.assertEquals(0, storage.size());
+        Assert.assertArrayEquals(testArrayResume, storage.getAll());
     }
 
     @Test

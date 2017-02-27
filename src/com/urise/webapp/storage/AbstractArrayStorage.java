@@ -10,9 +10,9 @@ import java.util.Arrays;
 /**
  * Created by Dima on 12.02.2017.
  */
-public abstract class AbstractArrayStorage implements Storage {
-    protected final int ARRAY_SIZE = 100000;
-    protected Resume[] storage = new Resume[ARRAY_SIZE];
+public abstract class AbstractArrayStorage extends AbstractStorage {
+    protected static final int STORAGE_LIMIT = 100000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     protected abstract int getIndex(String uuid);
@@ -35,7 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            if (size < ARRAY_SIZE) {
+            if (size < STORAGE_LIMIT) {
                 insertElement(r, index);
                 size++;
             } else {

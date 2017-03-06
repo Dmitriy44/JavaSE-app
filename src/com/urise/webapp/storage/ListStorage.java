@@ -1,11 +1,10 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -13,56 +12,59 @@ import java.util.List;
  */
 public class ListStorage extends AbstractStorage {
 
-    protected List<Resume> storage = new LinkedList<>();
+    private List<Resume> list = new ArrayList<>();
 
 
-
-    protected Resume getResumeByUuid(String uuid){
-        for (Resume r: storage){
-            if (r.getUuid().equals(uuid)){
-                return r;
+    @Override
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
             }
         }
-        throw new NotExistStorageException(uuid);
+        return null;
+    }
+
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey!=null;
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        list.add(r);
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        list.set((Integer) searchKey, r);
+    }
+
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        list.remove(((Integer) searchKey).intValue());
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
     }
 
     @Override
     public void clear() {
-        storage.clear();
+        list.clear();
     }
 
     @Override
-    public void save(Resume r) {
-        if (!storage.contains(r)) {
-            storage.add(r);
-        }else {
-            throw new ExistStorageException(r.getUuid());
-        }
-    }
-
-    @Override
-    public void update(Resume r) {
-       Resume updateResume = getResumeByUuid(r.getUuid());
-       storage.add(storage.indexOf(updateResume), r);
-    }
-
-    @Override
-    public Resume get(String uuid) {
-       return getResumeByUuid(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        storage.remove(getResumeByUuid(uuid));
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[storage.size()]);
+    public List<Resume> getAllSorted() {
+        Collections.sort(list);
+        return list;
     }
 
     @Override
     public int size() {
-        return storage.size();
+        return list.size();
     }
 }

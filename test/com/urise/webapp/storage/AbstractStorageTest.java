@@ -6,6 +6,9 @@ import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -92,12 +95,12 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void testGetAll() throws Exception {
-        Resume[] testStorage = storage.getAll();
-        assertEquals(3, testStorage.length);
-        assertEquals(RESUME_1, testStorage[0]);
-        assertEquals(RESUME_2, testStorage[1]);
-        assertEquals(RESUME_3, testStorage[2]);
+    public void testGetAllSorted() throws Exception {
+        List<Resume> testStorage = storage.getAllSorted();
+        assertEquals(3, testStorage.size());
+        assertEquals(RESUME_1, testStorage.get(0));
+        assertEquals(RESUME_2, testStorage.get(1));
+        assertEquals(RESUME_3, testStorage.get(2));
     }
 
     //TODO : special tests

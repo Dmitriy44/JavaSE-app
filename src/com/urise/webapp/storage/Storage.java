@@ -2,6 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by Dima on 12.02.2017.
  */
@@ -21,7 +24,7 @@ public interface Storage {
      * @return array, contains only Resumes in storage (without null)
      */
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     int size();
 }

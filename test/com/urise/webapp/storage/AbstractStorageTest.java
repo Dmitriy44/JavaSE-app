@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -36,12 +37,12 @@ public class AbstractStorageTest {
         this.storage = storage;
     }
 
-    private void assertSize(int size){
+    private void assertSize(int size) {
         assertEquals(storage.size(), size);
     }
 
-    private void assertGet(Resume resume){
-        assertEquals(storage.get(resume.getUuid()),resume);
+    private void assertGet(Resume resume) {
+        assertEquals(storage.get(resume.getUuid()), resume);
     }
 
     @Before
@@ -61,7 +62,7 @@ public class AbstractStorageTest {
     @Test
     public void testUpdate() throws Exception {
         Resume testResume = storage.get(UUID_1);
-        storage.update(new Resume(UUID_1));
+        storage.update(new Resume(UUID_1, "New Name"));
         assertFalse(testResume == storage.get(UUID_1));
     }
 
@@ -102,6 +103,7 @@ public class AbstractStorageTest {
     public void testGetAllSorted() throws Exception {
         List<Resume> testStorage = storage.getAllSorted();
         assertEquals(3, testStorage.size());
+        assertEquals(testStorage, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
         assertEquals(RESUME_1, testStorage.get(0));
         assertEquals(RESUME_2, testStorage.get(1));
         assertEquals(RESUME_3, testStorage.get(2));

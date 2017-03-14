@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by Dima on 12.02.2017.
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 100000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -21,9 +21,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
 
     @Override
-    protected void doSave(Resume r, Object index) {
+    protected void doSave(Resume r, Integer index) {
         if (size < STORAGE_LIMIT) {
-            insertElement(r, (Integer) index);
+            insertElement(r, index);
             size++;
         } else {
             throw new StorageException("Storage is full", r.getUuid());
@@ -31,19 +31,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume r, Object index) {
-        storage[((Integer) index)] = r;
+    protected void doUpdate(Resume r, Integer index) {
+        storage[(index)] = r;
     }
 
     @Override
-    protected void doDelete(Object index) {
-        fillDeletedElement((Integer) index);
+    protected void doDelete(Integer index) {
+        fillDeletedElement(index);
         storage[--size] = null;
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storage[((Integer) index)];
+    protected Resume doGet(Integer index) {
+        return storage[(index)];
     }
 
     public void clear() {
@@ -52,8 +52,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return ((Integer) index) >= 0;
+    protected boolean isExist(Integer index) {
+        return (index) >= 0;
     }
 
     @Override
@@ -62,9 +62,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        Resume[] result = Arrays.copyOfRange(storage, 0, size);
-        Arrays.sort(result);
-        return Arrays.asList(result);
+    protected List<Resume> doCopyAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 }

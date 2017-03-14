@@ -22,12 +22,12 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void testSaveOverflowStorage() throws Exception {
         for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
             try {
-                storage.save(new Resume());
+                storage.save(new Resume("Name" + i));
             } catch (StorageException e) {
                 Assert.fail(e.getMessage());
             }
         }
-        storage.save(new Resume());
+        storage.save(new Resume("Overflow"));
     }
 
 }

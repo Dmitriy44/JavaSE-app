@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Dima on 27.02.2017.
  */
-public class MapUuidStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage<String> {
 
     private Map<String, Resume> map = new HashMap<>();
 
@@ -18,29 +18,34 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return map.containsKey(searchKey.toString());
+    protected boolean isExist(String searchKey) {
+        return map.containsKey(searchKey);
     }
 
     @Override
-    protected void doSave(Resume r, Object searchKey) {
-        map.put(r.getUuid(), r);
+    protected void doSave(Resume r, String searchKey) {
+        map.put(searchKey, r);
     }
 
     @Override
-    protected void doUpdate(Resume r, Object searchKey) {
-        map.put(r.getUuid(), r);
+    protected void doUpdate(Resume r, String searchKey) {
+        map.put(searchKey, r);
     }
 
 
     @Override
-    protected void doDelete(Object searchKey) {
-        map.remove(searchKey.toString());
+    protected void doDelete(String searchKey) {
+        map.remove(searchKey);
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return map.get(searchKey.toString());
+    protected Resume doGet(String searchKey) {
+        return map.get(searchKey);
+    }
+
+    @Override
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(map.values());
     }
 
     @Override
@@ -49,18 +54,9 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume>result=new LinkedList<>();
-        for (Map.Entry<String, Resume> entry:map.entrySet()){
-            result.add(entry.getValue());
-        }
-        Collections.sort(result);
-        return result;
-    }
-
-
-    @Override
     public int size() {
         return map.size();
     }
+
+
 }

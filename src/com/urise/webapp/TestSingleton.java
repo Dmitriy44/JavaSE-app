@@ -28,7 +28,7 @@ public class TestSingleton {
         for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
         }*/
-        Resume test = new Resume("");
+      /*  Resume test = new Resume("");
         test.setPersonal("text");
         System.out.println(test.getPersonal());
         test.setAchievement("ach1", "ach2", "ach3");
@@ -39,7 +39,7 @@ public class TestSingleton {
         info.add("sdsd");
         data.put("dd",info);
         test.setExperience(new String[]{"Company name","range","info","info"});
-        System.out.println(Arrays.toString(test.getExperience()));
+        System.out.println(Arrays.toString(test.getExperience()));*/
     }
 
     public enum Singleton {

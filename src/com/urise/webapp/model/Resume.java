@@ -12,49 +12,9 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
-    private TextField personal;
 
-    private TextField objective;
-
-    private TextList achievement;
-
-    private TextList qualifications;
-
-    private TextList[] experience;
-
-    private TextList[] education;
-
-    private class TextField {
-        String field;
-
-        TextField(String field) {
-            this.field = field;
-        }
-
-        @Override
-        public String toString() {
-            return field;
-        }
-    }
-
-    private class TextList {
-        List<String> list = new ArrayList<>();
-
-        TextList(String[] data) {
-            List<String> list = new ArrayList<>();
-            Collections.addAll(list, data);
-            this.list = list;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            for (String text : list) {
-                builder.append(text).append("\n");
-            }
-            return builder.toString();
-        }
-    }
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -101,122 +61,26 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
+    public void setContact(ContactType type, String information){
+        contacts.put(type, information);
+    }
+
+    public void setSection(SectionType type, Section section){
+        sections.put(type, section);
+    }
+
+    public String getContact(ContactType contactType) {
+        return contacts.get(contactType);
+    }
+
+    public Section getSection(SectionType sectionType) {
+        return sections.get(sectionType);
+    }
+
     @Override
     public int compareTo(Resume o) {
         int cmp = fullName.compareTo(o.getFullName());
         return cmp != 0 ? cmp : uuid.compareTo(o.getUuid());
     }
 
-    /*public void setData(SectionType type, String... fields) {
-        switch (type.name()) {
-            case "PERSONAL":
-                personal.field = fields[0];
-                break;
-            case "OBJECTIVE":
-                objective.field = fields[0];
-                break;
-            case "ACHIEVEMENT":
-                achievement.list.clear();
-                Collections.addAll(achievement.list, fields);
-                break;
-            case "QUALIFICATIONS":
-                qualifications.list.clear();
-                Collections.addAll(qualifications.list, fields);
-                break;
-            case "EXPERIENCE":
-                experience.period = fields[0];
-                experience.organizationName = fields[1];
-                experience.specialization = fields[2];
-                experience.responsibility.addAll(Arrays.asList(fields).subList(3, fields.length));
-                break;
-            case "EDUCATION":
-                education.period = fields[0];
-                education.organizationName = fields[1];
-                education.specialization = fields[2];
-                education.responsibility.addAll(Arrays.asList(fields).subList(3, fields.length));
-                break;
-            default:
-                throw new IllegalArgumentException(type.getTitle());
-        }
-    }
-
-    public String[] getData(SectionType type) {
-        switch (type.name()) {
-            case "PERSONAL":
-                return new String[]{personal.field};
-            case "OBJECTIVE":
-                return new String[]{objective.field};
-            case "ACHIEVEMENT":
-                String [] param=new String[achievement.list.size()];
-                for (int i=0; i< param.length; i++){
-                    param[i]=achievement.list.get(i);
-                }
-                return param;
-            case "QUALIFICATIONS":
-                //http://stackoverflow.com/questions/3293946/the-easiest-way-to-transform-collection-to-array
-                return qualifications.list.toArray(new String[qualifications.list.size()]);
-            case "EXPERIENCE":
-
-            case "EDUCATION":
-
-            default:
-                throw new IllegalArgumentException(type.getTitle());
-        }
-    }*/
-
-    public TextField getPersonal() {
-        return personal;
-    }
-
-    public void setPersonal(String data) {
-        this.personal = new TextField(data);
-    }
-
-    public TextField getObjective() {
-        return objective;
-    }
-
-    public void setObjective(String data) {
-        this.objective = new TextField(data);
-    }
-
-    public TextList getAchievement() {
-        return achievement;
-    }
-
-    public void setAchievement(String... data) {
-        this.achievement = new TextList(data);
-    }
-
-    public TextList getQualifications() {
-        return qualifications;
-    }
-
-    public void setQualifications(String... data) {
-        this.qualifications = new TextList(data);
-    }
-
-    public TextList[] getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String[]... data) {
-        TextList[] lists = new TextList[data.length];
-        for (int i = 0; i < data.length; i++) {
-            lists[i] = new TextList(data[i]);
-        }
-        this.experience = lists;
-    }
-
-    public TextList[] getEducation() {
-        return education;
-    }
-
-    public void setEducation(String[]... data) {
-        TextList[] lists = new TextList[data.length];
-        for (int i = 0; i < data.length; i++) {
-            lists[i] = new TextList(data[i]);
-        }
-        this.education = lists;
-    }
 }

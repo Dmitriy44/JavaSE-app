@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Dima on 27.02.2017.
  */
-public class AbstractStorageTest {
+public  class AbstractStorageTest {
     private Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String NAME_1 = "name1";

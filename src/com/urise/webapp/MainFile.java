@@ -36,10 +36,8 @@ public class MainFile {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {
-                if (file.listFiles() != null) {
-                    for (File f : files) {
-                        recursionFiles(f);
-                    }
+                for (File f : files) {
+                    recursionFiles(f);
                 }
             }
         }

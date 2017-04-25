@@ -1,8 +1,10 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Organization;
+import com.urise.webapp.model.TimeInterval;
 
 import java.io.File;
+import java.time.LocalDate;
 
 /**
  * Created by Dima on 20.04.2017.

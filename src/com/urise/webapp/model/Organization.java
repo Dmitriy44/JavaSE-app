@@ -43,4 +43,13 @@ public class Organization {
         result = 31 * result + Arrays.hashCode(intervals);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "homePage=" + homePage +
+                ", title='" + title + '\'' +
+                ", intervals=" + Arrays.toString(intervals) +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.urise.webapp;
 
+import com.urise.webapp.model.Organization;
+
 import java.io.File;
 
 /**

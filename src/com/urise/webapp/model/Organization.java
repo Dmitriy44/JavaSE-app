@@ -1,6 +1,7 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,20 +10,16 @@ import java.util.Objects;
  */
 public class Organization {
     private final Link homePage;
-    private final LocalDate startTime;
-    private final LocalDate endTime;
     private final String title;
-    private final String description;
+    private final TimeInterval[] intervals;
 
-    public Organization(String name, String url, LocalDate startTime, LocalDate endTime, String title, String description) {
-        Objects.requireNonNull(startTime, "startTime must not be null");
-        Objects.requireNonNull(endTime, "endTime must not be null");
+
+    public Organization(String name, String url, String title, TimeInterval... intervals) {
         Objects.requireNonNull(title, "title must not be null");
+        Objects.requireNonNull(intervals, "intervals must not be null");
         this.homePage = new Link(name, url);
-        this.startTime = startTime;
-        this.endTime = endTime;
         this.title = title;
-        this.description = description;
+        this.intervals = intervals;
     }
 
     @Override
@@ -33,31 +30,17 @@ public class Organization {
         Organization that = (Organization) o;
 
         if (!homePage.equals(that.homePage)) return false;
-        if (!startTime.equals(that.startTime)) return false;
-        if (!endTime.equals(that.endTime)) return false;
         if (!title.equals(that.title)) return false;
-        return !(description != null ? !description.equals(that.description) : that.description != null);
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(intervals, that.intervals);
 
     }
 
     @Override
     public int hashCode() {
         int result = homePage.hashCode();
-        result = 31 * result + startTime.hashCode();
-        result = 31 * result + endTime.hashCode();
         result = 31 * result + title.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(intervals);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Organization{" +
-                "homePage=" + homePage +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
     }
 }
